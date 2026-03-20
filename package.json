@@ -1,0 +1,26 @@
+{
+  "name": "crud-todo-list",
+  "version": "1.0.0",
+  "description": "CRUD for a to-do list application with raw node.js",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ruantos/CRUD-to-do-list.git"
+  },
+  "keywords": [
+    "nodejs",
+    "crud",
+    "http"
+  ],
+  "author": "Juan Oliveira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ruantos/CRUD-to-do-list/issues"
+  },
+  "homepage": "https://github.com/ruantos/CRUD-to-do-list#readme"
+}
