@@ -1,24 +1,27 @@
 import http from 'node:http';
 import { routes } from './routes.js';
+import { json } from '../middlewares/json.js';
 
 
 const port = 3000;
 const hostname = 'localhost';
 
-
-const server = http.createServer((req, res) => {
+const server = http.createServer( async (req, res) => {
   const { method, url } = req;
+  await json(req, res);
 
+  //tratamento do url e extração dos query parameters
+  const parsedUrl = new URL(url, `http://${req.headers.host}`);
+  req.query = Object.fromEntries(parsedUrl.searchParams);
+  
   const route = routes.find( route => {
-    return route.method === method && route.path === url;
+    return route.method === method && route.path === parsedUrl.pathname;
   });
   
   if (route) {
-    console.log(req.url);
-    return res.writeHead(200).end();
+    return route.handler(req, res);
   }
   
-  console.log(req.url);
   return res.writeHead(404).end();
 
 });

@@ -107,8 +107,8 @@ Entidade: `task`
 ## Plano de Implementacao
 
 ### Fase 1: Base do servidor
-1. Criar servidor HTTP com Node.js puro
-2. Implementar parser de JSON
+1. ✅ Criar servidor HTTP com Node.js puro
+2. ✅ Implementar parser de JSON
 3. Implementar roteamento com suporte a params e query string
 
 ### Fase 2: CRUD de tarefas

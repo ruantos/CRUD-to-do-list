@@ -1,8 +1,21 @@
+import { Database } from "./database.js";
+
+
+const database = new Database();
+
 export const routes = [
   {
     method: 'GET',
     path: '/tasks',
-    handler: ''
+    handler: (req, res) => {
+      const data = database.list();
+      return res.end(JSON.stringify(data));
+    } 
+  },
+  {
+    method: 'GET',
+    path: '/tasks/:id',
+    handler: 'getTaskById'
   },
   {
     method: 'POST',
@@ -16,12 +29,12 @@ export const routes = [
   },
   {
     method: 'PATCH',
-    path: '/tasks',
+    path: '/tasks/:id',
     handler: ''
   },
   {
     method: 'DELETE',
-    path: '/tasks',
+    path: '/tasks/:id',
     handler: ''
   },
 
