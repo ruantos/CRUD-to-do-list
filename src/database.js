@@ -1,56 +1,34 @@
-import { stringify } from 'csv/sync';
-import { parse } from 'csv-parse';
-import fs from 'node:fs'
-import { writeFile } from 'node:fs/promises';
+import fs from 'node:fs';
 
-const database_path = './data/tasks.csv'
+const database_path = 'data/data.json';
 
 export class Database {
-  #database = [];
-
+  #local_database = [];
 
   constructor() {
-    fs.createReadStream(database_path)
-      .pipe( parse({columns: true,}) )
-      .on('data', (row) => {
-        this.#database.push(row)
-      })
+    /** Read file sync and create if it doesnt exist */
+    try {
+      const data = fs.readFileSync(database_path, 'utf8');
+      this.#local_database = JSON.parse(data);
+    } catch (err) {
+      console.log('Error while reading file: ', err)
+      console.log('Creating new database...');
+      this.#push();
+    }
   }
 
-  async #persist() {
-    const csv = stringify(this.#database, {
-      header: true,
-      columns: ['id', 'title', 'description']
-    });
-
-    await writeFile(database_path, csv, 'utf8');
-    
+  #push() {
+    /** Push changes or create  */
+    fs.writeFileSync(database_path, JSON.stringify(this.#local_database));
   }
 
-  list() {
-    
+  getLocalDatabase() {
+    return this.#local_database;
   }
 
-  select() {
+  
 
-  }
-
-  delete() {
-
-  }
-
-  update() {
-
-  }
-
-  markCompletion() {
-
-  }
-
-  updateInfo() {
-
-  }
 }
 
-const database = new Database();
-  
+const db = new Database();
+console.log(db.getLocalDatabase());
