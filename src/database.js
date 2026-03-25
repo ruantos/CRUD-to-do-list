@@ -39,9 +39,24 @@ export class Database {
 
   }
 
-  list() {
-    return this.#local_database;
+  select(query = {}) {
+  let result = [...this.#local_database];
+
+  for (const [key, value] of Object.entries(query)) {
+    result = result.filter((item) => {
+      const actual = item[key];
+
+
+      if (typeof value === 'string' && typeof actual === 'string') {
+        return actual.toLowerCase().includes(value.toLowerCase());
+      }
+
+      return actual === value;
+    });
   }
+
+  return result;
+}
 
   update(id, key, value) {
     const idx = this.#local_database.findIndex( (item) => {
@@ -56,11 +71,4 @@ export class Database {
       console.log("Item not found ")
     }
   }
-
-
-
 }
-
-const db = new Database();
-db.update('3', "description", "Casar com Mai");
-console.log(db.list());
