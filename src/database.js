@@ -6,7 +6,6 @@ export class Database {
   #local_database = [];
 
   constructor() {
-    /** Read file sync and create if it doesnt exist */
     try {
       const data = fs.readFileSync(database_path, 'utf8');
       this.#local_database = JSON.parse(data);
@@ -18,17 +17,50 @@ export class Database {
   }
 
   #push() {
-    /** Push changes or create  */
     fs.writeFileSync(database_path, JSON.stringify(this.#local_database));
   }
 
-  getLocalDatabase() {
+  insert(task) {
+    this.#local_database.push(task);
+    this.#push();
+  }
+
+  delete(id) {
+    const idx = this.#local_database.findIndex( (item) => {
+      return item.id === id;
+    });
+
+    if (idx >= 0 ) {
+      this.#local_database.splice(idx, 1);
+      this.#push();
+    } else {
+      console.log("Item not found")
+    }
+
+  }
+
+  list() {
     return this.#local_database;
   }
 
-  
+  update(id, key, value) {
+    const idx = this.#local_database.findIndex( (item) => {
+      return item.id === id
+    });
+
+ 
+    if(idx >= 0) {
+      this.#local_database[idx][key] = value;
+      this.#push();
+    } else {
+      console.log("Item not found ")
+    }
+  }
+
+
 
 }
 
 const db = new Database();
-console.log(db.getLocalDatabase());
+db.update('3', "description", "Casar com Mai");
+console.log(db.list());
