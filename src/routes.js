@@ -43,14 +43,27 @@ export const routes = [
     }
   },
   {
-    method: 'PUT',
-    path: buildRoutePath('/tasks'),
-    handler: ''
-  },
-  {
     method: 'PATCH',
     path: buildRoutePath('/tasks/:id'),
-    handler: ''
+    handler: (req, res) => {
+      if(!req.body) {
+        return res.writeHead(400).end();
+      }
+
+      const id = req.params.id;
+
+      const allowedFields = ['title', 'description', 'is_done'];
+      const updates = Object.entries(req.body).filter( ([key, value]) => {
+        return allowedFields
+      });
+      for (const [key, value ] of updates ) {
+        console.log(key)
+        console.log(value)
+        database.update(id, key, value);
+      }
+
+      return res.writeHead(204).end();
+    }
   },
   {
     method: 'DELETE',

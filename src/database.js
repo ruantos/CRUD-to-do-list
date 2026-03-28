@@ -60,7 +60,7 @@ export class Database {
 
   update(id, key, value) {
     const idx = this.#local_database.findIndex((item) => {
-      return item.id === id
+      return item.id == id
     });
 
     if (idx >= 0) {
