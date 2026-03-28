@@ -57,8 +57,6 @@ export const routes = [
         return allowedFields
       });
       for (const [key, value ] of updates ) {
-        console.log(key)
-        console.log(value)
         database.update(id, key, value);
       }
 
