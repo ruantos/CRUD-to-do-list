@@ -17,7 +17,6 @@ export const routes = [
     method: 'GET',
     path: buildRoutePath('/tasks/:id'),
     handler: (req, res) => {
-      console.log(req.params)
       const data = database.select(req.params);
 
       return res.end(JSON.stringify(data));
@@ -26,7 +25,22 @@ export const routes = [
   {
     method: 'POST',
     path: buildRoutePath('/tasks'),
-    handler: ''
+    handler: (req, res) => {
+      if (req.body) {
+        const { title, description } = req.body;
+
+        database.insert({
+          id: Math.ceil(Math.random() * 1000),
+          title: title,
+          description: description,
+          is_done: false,
+          created_at: new Date().toISOString().split("T")[0],
+  
+        });
+        return res.writeHead(201).end();
+      }
+      return res.writeHead(400).end()
+    }
   },
   {
     method: 'PUT',
