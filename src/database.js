@@ -27,7 +27,7 @@ export class Database {
 
   delete(id) {
     const idx = this.#local_database.findIndex((item) => {
-      return item.id === id;
+      return item.id == id;
     });
 
     if (idx >= 0) {
