@@ -1,4 +1,5 @@
 import { Database } from "./database.js";
+import { buildRoutePath } from "../utils/build_route_path.js";
 
 
 const database = new Database();
@@ -6,35 +7,40 @@ const database = new Database();
 export const routes = [
   {
     method: 'GET',
-    path: '/tasks',
+    path: buildRoutePath('/tasks'),
     handler: (req, res) => {
-      const data = database.list();
+      const data = database.select(req.query);
       return res.end(JSON.stringify(data));
     } 
   },
   {
     method: 'GET',
-    path: '/tasks/:id',
-    handler: 'getTaskById'
+    path: buildRoutePath('/tasks/:id'),
+    handler: (req, res) => {
+      console.log(req.params)
+      const data = database.select(req.params);
+
+      return res.end(JSON.stringify(data));
+    }
   },
   {
     method: 'POST',
-    path: '/tasks',
+    path: buildRoutePath('/tasks'),
     handler: ''
   },
   {
     method: 'PUT',
-    path: '/tasks',
+    path: buildRoutePath('/tasks'),
     handler: ''
   },
   {
     method: 'PATCH',
-    path: '/tasks/:id',
+    path: buildRoutePath('/tasks/:id'),
     handler: ''
   },
   {
     method: 'DELETE',
-    path: '/tasks/:id',
+    path: buildRoutePath('/tasks/:id'),
     handler: ''
   },
 
